@@ -13,8 +13,8 @@ clear all;
 close all;
 
 %read the raw data .wave file here
-%[Y,FS] = audioread('Off of Newton Exit 17.wav');
-[Y,FS] = audioread('Recording.wav');
+[Y,FS] = audioread('Off of Newton Exit 17.wav');
+%[Y,FS] = audioread('Recording.wav');
 disp("FS is");
 disp(FS);
 disp("number of data is ");
