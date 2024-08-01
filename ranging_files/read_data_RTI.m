@@ -29,8 +29,8 @@ c = 3E8; %(m/s) speed of light
 %radar parameters
 Tp = 20E-3; %(s) pulse time
 N = Tp*FS; %# of samples per pulse
-fstart = 2260E6; %(Hz) LFM start frequency for example
-fstop = 2590E6; %(Hz) LFM stop frequency for example
+fstart = 2305E6; %(Hz) LFM start frequency for example
+fstop = 2549E6; %(Hz) LFM stop frequency for example
 %fstart = 2402E6; %(Hz) LFM start frequency for ISM band
 %fstop = 2495E6; %(Hz) LFM stop frequency for ISM band
 BW = fstop-fstart; %(Hz) transmti bandwidth
@@ -39,7 +39,7 @@ f = linspace(fstart, fstop, N/2); %instantaneous transmit frequency
 %range resolution
 rr = c/(2*BW);
 max_range = rr*N/2;
-%max_range=10;
+max_range2=1.;
 
 %the input appears to be inverted
 trig = -1*Y(:,1);
@@ -97,6 +97,31 @@ end
 S = dbv(S(:,1:size(v,2)/2));
 m = max(max(S));
 imagesc(R,time,S-m,[-80, 0]);
+colorbar;
+ylabel('time (s)');
+xlabel('range (m)');
+title('RTI with 2-pulse cancelor clutter rejection');
+
+% better range
+yyy=S-m;
+sizeyyy=size(yyy);
+h1=sizeyyy(1);
+h2=sizeyyy(2);
+factorf=8;
+h3=int32(h2/factorf);
+meme=yyy(1:h1,1:h3);
+yrange=max_range/factorf;
+imagesc(linspace(0,yrange),time,meme,[-80,0]);
+%imagesc(meme);
+colorbar;
+ylabel('time (s)');
+xlabel('range (m)');
+title('RTI with 2-pulse cancelor clutter rejection y range');
+
+
+figure(21);
+imagesc(R,time,yuckyuck,[-80, 0]);
+%imagesc(S-m);
 colorbar;
 ylabel('time (s)');
 xlabel('range (m)');
