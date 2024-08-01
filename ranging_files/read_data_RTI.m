@@ -15,7 +15,7 @@ close all;
 %read the raw data .wave file here
 [Y,FS] = audioread('running_outside_20ms.wav');
 %[Y,FS] = audioread('Recording.wav');
-disp("FS is");
+disp("FS is the number of samples per second");
 disp(FS);
 figure(50);
  plot(Y(1:5000,1));
@@ -37,16 +37,17 @@ BW = fstop-fstart; %(Hz) transmti bandwidth
 f = linspace(fstart, fstop, N/2); %instantaneous transmit frequency
 
 %range resolution
-rr = c/(2*BW);
-max_range = rr*N/2;
-max_range2=1.;
+rr = c/(2*BW); 
+max_range = rr*N/2;  
 
 %the input appears to be inverted
-trig = -1*Y(:,1);
-s = -1*Y(:,2);
+trig = -1*Y(:,1);  % this should look like a trigger pulse
+s = -1*Y(:,2);   % this is the actual data
 %clear Y;
 
 %parse the data here by triggering off rising edge of sync pulse
+% trigger pulse is a squareish wave that steps from a value below zero to
+% one above.  look for the crossing point
 count = 0;
 thresh = 0;
 start = (trig > thresh);
@@ -54,7 +55,7 @@ for ii = 100:(size(start,1)-N)
     if start(ii) == 1 & mean(start(ii-11:ii-1)) == 0
         start2(ii) = 1;
         count = count + 1;
-        sif(count,:) = s(ii:ii+N-1);
+        sif(count,:) = s(ii:ii+N-1);   % one row of data for each trigger
         time(count) = ii*1/FS;
     end
 end
@@ -67,8 +68,8 @@ hold off;
 grid on;
 
 %subtract the average
-ave = mean(sif,1);
-for ii = 1:size(sif,1);
+ave = mean(sif,1);  % average over the first dimension
+for ii = 1:size(sif,1); % size is of the first dimension
     sif(ii,:) = sif(ii,:) - ave;
 end
 
