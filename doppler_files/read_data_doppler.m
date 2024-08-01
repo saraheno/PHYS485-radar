@@ -32,8 +32,9 @@ c = 3E8; %(m/s) speed of light
 
 %radar parameters
 Tp=0.5;  % a time in which to get the average velocity
-N = Tp*FS; %# of samples per pulse
-fc = 2590E6; %(Hz) Center frequency (connected VCO Vtune to +5 for example)
+N = Tp*FS; %# of samples in the time Tp
+fc = 2590E6; %(Hz) Center frequency (connected VCO Vtune to +5 for example) get from
+% your measured voltage and the oscillator data sheet.  may need to interprolate
 %fc = 2495E6; %(Hz) Center frequency within ISM band (VCO Vtune to +3.2V)
 
 %the input appears to be inverted
@@ -42,7 +43,7 @@ s = -1*Y(:,2);
 
 %creat doppler vs. time plot data set here
 for ii = 1:round(size(s,1)/N)-1
-    sif(ii,:) = s(1+(ii-1)*N:ii*N);
+    sif(ii,:) = s(1+(ii-1)*N:ii*N);  % divide data into samples of size N
 end
 
 %subtract the average DC term here
@@ -52,8 +53,10 @@ zpad = 8*N/2;
 
 %doppler vs. time plot:
 figure(77);
+%dbv is defined in this folder. transform on second dimension (data )
+% assume amount of data in each row is zpad (why zpad and not N?)
 v = dbv(ifft(sif,zpad,2));
-v = v(:,1:size(v,2)/2);
+v = v(:,1:size(v,2)/2);  % remove the top half of the returned frequencies
 mmax = max(max(v));
 %calculate velocity
 delta_f = linspace(0, FS/2, size(v,2)); %(Hz)
