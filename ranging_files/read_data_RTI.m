@@ -61,9 +61,9 @@ for ii = 100:(size(start,1)-N)
 end
 %check to see if triggering works
 figure(22)
-plot(trig(1:20),'.b');
+plot(trig(1:5000),'.b');
 hold on;
-plot(start2(1:20),'.r');
+plot(start2(1:5000),'.r');
 hold off;
 grid on;
 
