@@ -73,12 +73,14 @@ for ii = 1:size(sif,1); % size is of the first dimension
     sif(ii,:) = sif(ii,:) - ave;
 end
 
-zpad = 8*N/2;
+zpad = 8*N/2;  % do the inverse fourrier transform using 4 pulses of data
 
 %RTI plot
 figure(10);
-v = dbv(ifft(sif,zpad,2));
-S = v(:,1:size(v,2)/2);
+%dbv is defined in this folder. transform on second dimension (data )
+% assume amount of data in each row is zpad (why zpad and not N?)
+v = dbv(ifft(sif,zpad,2));  % for each trigger give frequencies 
+S = v(:,1:size(v,2)/2);  % for each trigger, take half the frequency range (maybe plus and minus freq?)
 m = max(max(v));
 imagesc(linspace(0,max_range,zpad),time,S-m,[-80, 0]);
 colorbar;
@@ -117,7 +119,7 @@ imagesc(linspace(0,yrange),time,meme,[-80,0]);
 colorbar;
 ylabel('time (s)');
 xlabel('range (m)');
-title('RTI with 2-pulse cancelor clutter rejection y range');
+title('RTI with 2-pulse cancelor clutter rejection zoom range');
 
 
 figure(21);
