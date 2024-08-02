@@ -107,6 +107,7 @@ xlabel('range (m)');
 title('RTI with 2-pulse cancelor clutter rejection');
 
 % better range
+figure(21);
 yyy=S-m;
 sizeyyy=size(yyy);
 h1=sizeyyy(1);
@@ -123,13 +124,6 @@ xlabel('range (m)');
 title('RTI with 2-pulse cancelor clutter rejection zoom range');
 
 
-figure(21);
-imagesc(R,time,yuckyuck,[-80, 0]);
-%imagesc(S-m);
-colorbar;
-ylabel('time (s)');
-xlabel('range (m)');
-title('RTI with 2-pulse cancelor clutter rejection');
 
 % %2 pulse mag only cancelor
 % figure(30);
