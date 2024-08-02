@@ -50,7 +50,7 @@ s = -1*Y(:,2);   % this is the actual data
 % one above.  look for the crossing point
 count = 0;
 thresh = 0;
-start = (trig > thresh);
+start = (trig > thresh);  % array that is one when the pulse is positive, 0 if negative
 for ii = 100:(size(start,1)-N)
     if start(ii) == 1 & mean(start(ii-11:ii-1)) == 0
         start2(ii) = 1;
@@ -79,7 +79,8 @@ zpad = 8*N/2;  % do the inverse fourrier transform using 4 pulses of data
 figure(10);
 %dbv is defined in this folder. transform on second dimension (data )
 % assume amount of data in each row is zpad (why zpad and not N?)
-v = dbv(ifft(sif,zpad,2));  % for each trigger give frequencies 
+% X = ifft(Y,n) returns the n-point inverse Fourier transform of Y by padding Y with trailing zeros to length n.
+v = dbv(ifft(sif,zpad,2));  % for each trigger  give frequencies 
 S = v(:,1:size(v,2)/2);  % for each trigger, take half the frequency range (maybe plus and minus freq?)
 m = max(max(v));
 imagesc(linspace(0,max_range,zpad),time,S-m,[-80, 0]);
