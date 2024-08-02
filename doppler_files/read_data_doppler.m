@@ -15,7 +15,7 @@ close all;
 %read the raw data .wave file here
 [Y,FS] = audioread('Off of Newton Exit 17.wav');
 %[Y,FS] = audioread('Recording.wav');
-disp("FS is");
+disp("FS (data sampling rate) is");
 disp(FS);
 disp("number of data is ");
 aaa=size(Y,1);
@@ -33,9 +33,8 @@ c = 3E8; %(m/s) speed of light
 %radar parameters
 Tp=0.5;  % a time in which to get the average velocity
 N = Tp*FS; %# of samples in the time Tp
-fc = 2590E6; %(Hz) Center frequency (connected VCO Vtune to +5 for example) get from
+fc = 2590E6; %(Hz) Center frequency (connected VCO Vtune to +5 or to +3.2V for example) get from
 % your measured voltage and the oscillator data sheet.  may need to interprolate
-%fc = 2495E6; %(Hz) Center frequency within ISM band (VCO Vtune to +3.2V)
 
 %the input appears to be inverted
 s = -1*Y(:,2);
@@ -56,7 +55,7 @@ figure(77);
 %dbv is defined in this folder. transform on second dimension (data )
 % assume amount of data in each row is zpad (why zpad and not N?)
 v = dbv(ifft(sif,zpad,2));
-v = v(:,1:size(v,2)/2);  % remove the top half of the returned frequencies
+v = v(:,1:size(v,2)/2);  % remove the top half of the returned frequencies since don't want both + and -
 mmax = max(max(v));
 %calculate velocity
 delta_f = linspace(0, FS/2, size(v,2)); %(Hz)
